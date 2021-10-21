@@ -44,10 +44,10 @@ public class SqlRuDateTimeParser implements DateTimeParser {
             arrStr = parse.split(" ");
         }
         ldt = LocalDateTime.of(
-                Integer.parseInt(String.format("%s%s", "20", arrStr[2].substring(0, 2)))
-                , Integer.parseInt(MONTHS.get(arrStr[1])), Integer.parseInt(arrStr[0])
-                , Integer.parseInt(arrStr[3].substring(0, 2))
-                , Integer.parseInt(arrStr[3].substring(3)));
+                Integer.parseInt(String.format("%s%s", "20", arrStr[2].substring(0, 2))),
+                Integer.parseInt(MONTHS.get(arrStr[1])), Integer.parseInt(arrStr[0]),
+                Integer.parseInt(arrStr[3].substring(0, 2)),
+                Integer.parseInt(arrStr[3].substring(3)));
         return ldt;
     }
 }
