@@ -20,13 +20,16 @@ public class SqlRuDateTimeParser implements DateTimeParser {
                     Map.entry("ноя", "11"), Map.entry("дек", "12"));
 
     public static void main(String[] args) throws Exception {
-        Document doc = Jsoup.connect("https://www.sql.ru/forum/job-offers").get();
-        Elements row = doc.select(".postslisttopic");
-        for (Element td : row) {
-            String str = td.parent().child(5).text();
-            SqlRuDateTimeParser sp = new SqlRuDateTimeParser();
-            LocalDateTime ldt = sp.parse(str);
-            System.out.println(ldt);
+        for (int i = 1; i <= 5; i++) {
+            Document doc = Jsoup.connect(
+                    String.format("https://www.sql.ru/forum/job-offers/%s", i)).get();
+            Elements row = doc.select(".postslisttopic");
+            for (Element td : row) {
+                String str = td.parent().child(5).text();
+                SqlRuDateTimeParser sp = new SqlRuDateTimeParser();
+                LocalDateTime ldt = sp.parse(str);
+                System.out.println(ldt);
+            }
         }
     }
 
