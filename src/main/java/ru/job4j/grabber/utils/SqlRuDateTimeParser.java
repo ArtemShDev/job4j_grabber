@@ -31,6 +31,22 @@ public class SqlRuDateTimeParser implements DateTimeParser {
                 System.out.println(ldt);
             }
         }
+        loadDetails();
+    }
+
+    private static void loadDetails() throws Exception{
+        Document doc = Jsoup.connect(
+                String.format("https://www.sql.ru/forum/1325330/%s",
+                        "lidy-be-fe-senior-cistemnye-analitiki-qa-i-devops-moskva-do-200t")).get();
+        Elements tabs = doc.select(".msgTable");
+        for (Element tb : tabs) {
+            String strDesc = tb.child(0).child(1).text();
+            String strDate = tb.child(0).select(".msgFooter").text().substring(0, 16);
+            SqlRuDateTimeParser sp = new SqlRuDateTimeParser();
+            LocalDateTime ldt = sp.parse(strDate);
+            System.out.println(strDesc);
+            System.out.println(strDate);
+        }
     }
 
     @Override
