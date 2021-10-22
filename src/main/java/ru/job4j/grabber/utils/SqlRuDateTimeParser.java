@@ -4,6 +4,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ru.job4j.grabber.post.Post;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,28 +27,24 @@ public class SqlRuDateTimeParser implements DateTimeParser {
                     String.format("https://www.sql.ru/forum/job-offers/%s", i)).get();
             Elements row = doc.select(".postslisttopic");
             for (Element td : row) {
-                String str = td.parent().child(5).text();
-                SqlRuDateTimeParser sp = new SqlRuDateTimeParser();
-                LocalDateTime ldt = sp.parse(str);
-                System.out.println(ldt);
+                Post post = details(td.child(0).attr("href"));
+                System.out.println(post);
             }
         }
-        loadDetails();
     }
 
-    private static void loadDetails() throws Exception{
-        Document doc = Jsoup.connect(
-                String.format("https://www.sql.ru/forum/1325330/%s",
-                        "lidy-be-fe-senior-cistemnye-analitiki-qa-i-devops-moskva-do-200t")).get();
+    private static Post details(String link) throws Exception {
+        Document doc = Jsoup.connect(link).get();
         Elements tabs = doc.select(".msgTable");
-        for (Element tb : tabs) {
-            String strDesc = tb.child(0).child(1).text();
-            String strDate = tb.child(0).select(".msgFooter").text().substring(0, 16);
-            SqlRuDateTimeParser sp = new SqlRuDateTimeParser();
-            LocalDateTime ldt = sp.parse(strDate);
-            System.out.println(strDesc);
-            System.out.println(strDate);
-        }
+        Element tb = tabs.first();
+        String title = tb.select(".messageHeader").text();
+        String strDesc = tb.child(0).child(1).text();
+        String strDate = tb.child(0).select(".msgFooter").text().substring(0, 16);
+        SqlRuDateTimeParser sp = new SqlRuDateTimeParser();
+        LocalDateTime ldt = sp.parse(strDate);
+        System.out.println(strDesc);
+        System.out.println(strDate);
+        return new Post(title, link, strDesc, ldt);
     }
 
     @Override
