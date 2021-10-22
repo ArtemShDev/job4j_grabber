@@ -4,9 +4,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 public class SqlRuDateTimeParser implements DateTimeParser {
@@ -38,8 +38,8 @@ public class SqlRuDateTimeParser implements DateTimeParser {
         LocalDateTime ldt;
         String[] arrStr;
         if (parse.contains("сегодня") || parse.contains("вчера")) {
-            Date date = new Date(System.currentTimeMillis() - (parse.contains("вчера") ? 24 * 60 * 60 * 1000 : 0));
-            String strDate = new SimpleDateFormat("yy MMM dd").format(date);
+            LocalDate ld = (parse.contains("вчера") ? LocalDate.now().minusDays(1) : LocalDate.now());
+            String strDate = ld.format(DateTimeFormatter.ofPattern("yy MMM dd"));
             strDate = String.format("%s%s", strDate, parse.substring(parse.indexOf(",")))
                     .replace(".", "");
             arrStr = strDate.split(" ");
