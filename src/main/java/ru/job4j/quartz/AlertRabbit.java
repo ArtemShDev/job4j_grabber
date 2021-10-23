@@ -6,8 +6,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Properties;
 
 import static org.quartz.JobBuilder.*;
@@ -16,50 +15,54 @@ import static org.quartz.SimpleScheduleBuilder.*;
 
 public class AlertRabbit {
 
-    private static Properties cfg;
-
     public static void main(String[] args) {
-        try {
-            readProperties();
-            Class.forName(cfg.getProperty("driver-class-name"));
-            try (Connection cn = DriverManager.getConnection(
-                    cfg.getProperty("url"),
-                    cfg.getProperty("username"),
-                    cfg.getProperty("password"))) {
-                List<Long> store = new ArrayList<>();
-                Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-                scheduler.start();
-                JobDataMap data = new JobDataMap();
-                data.put("store", store);
-                data.put("connection", cn);
-                JobDetail job = newJob(Rabbit.class)
-                        .usingJobData(data)
-                        .build();
-                SimpleScheduleBuilder times = simpleSchedule()
-                        .withIntervalInSeconds(Integer.parseInt(cfg.getProperty("rabbit.interval")))
-                        .repeatForever();
-                Trigger trigger = newTrigger()
-                        .startNow()
-                        .withSchedule(times)
-                        .build();
-                scheduler.scheduleJob(job, trigger);
-                Thread.sleep(10000);
-                scheduler.shutdown();
-                System.out.println(store);
-            }
+        Properties cfg = readProperties();
+        try (Connection cn = getConnection(cfg)) {
+            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+            scheduler.start();
+            JobDataMap data = new JobDataMap();
+            data.put("connection", cn);
+            JobDetail job = newJob(Rabbit.class)
+                    .usingJobData(data)
+                    .build();
+            SimpleScheduleBuilder times = simpleSchedule()
+                    .withIntervalInSeconds(Integer.parseInt(cfg.getProperty("rabbit.interval")))
+                    .repeatForever();
+            Trigger trigger = newTrigger()
+                    .startNow()
+                    .withSchedule(times)
+                    .build();
+            scheduler.scheduleJob(job, trigger);
+            Thread.sleep(10000);
+            scheduler.shutdown();
         } catch (Exception se) {
             se.printStackTrace();
         }
     }
 
-    private static void readProperties() {
-        cfg = new Properties();
+    private static Connection getConnection(Properties cfg) {
+        Connection cn = null;
+        try {
+            Class.forName(cfg.getProperty("driver-class-name"));
+            cn = DriverManager.getConnection(
+                    cfg.getProperty("url"),
+                    cfg.getProperty("username"),
+                    cfg.getProperty("password"));
+        } catch (Exception se) {
+            se.printStackTrace();
+        }
+        return cn;
+    }
+
+    private static Properties readProperties() {
+        Properties cfg = new Properties();
         try (InputStream in = AlertRabbit.class.getClassLoader()
                 .getResourceAsStream("rabbit.properties")) {
             cfg.load(in);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return cfg;
     }
 
     public static class Rabbit implements Job {
@@ -69,15 +72,13 @@ public class AlertRabbit {
         }
 
         @Override
-        public void execute(JobExecutionContext context) throws JobExecutionException {
+        public void execute(JobExecutionContext context) {
             System.out.println("Rabbit runs here ...");
-            List<Long> store = (List<Long>) context.getJobDetail().getJobDataMap().get("store");
             Connection cn = (Connection) context.getJobDetail().getJobDataMap().get("connection");
             Long t = System.currentTimeMillis();
-            store.add(t);
             try (PreparedStatement statement = cn.
                     prepareStatement("insert into rabbit_(created_date) values (?)")) {
-                statement.setTimestamp(1, new Timestamp(t));
+                statement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
                 statement.execute();
             } catch (Exception e) {
                 e.printStackTrace();
