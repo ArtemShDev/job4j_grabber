@@ -21,32 +21,6 @@ public class SqlRuDateTimeParser implements DateTimeParser {
                     Map.entry("сен", "9"), Map.entry("окт", "10"),
                     Map.entry("ноя", "11"), Map.entry("дек", "12"));
 
-    public static void main(String[] args) throws Exception {
-        for (int i = 1; i <= 5; i++) {
-            Document doc = Jsoup.connect(
-                    String.format("https://www.sql.ru/forum/job-offers/%s", i)).get();
-            Elements row = doc.select(".postslisttopic");
-            for (Element td : row) {
-                Post post = details(td.child(0).attr("href"));
-                System.out.println(post);
-            }
-        }
-    }
-
-    private static Post details(String link) throws Exception {
-        Document doc = Jsoup.connect(link).get();
-        Elements tabs = doc.select(".msgTable");
-        Element tb = tabs.first();
-        String title = tb.select(".messageHeader").text();
-        String strDesc = tb.child(0).child(1).text();
-        String strDate = tb.child(0).select(".msgFooter").text().substring(0, 16);
-        SqlRuDateTimeParser sp = new SqlRuDateTimeParser();
-        LocalDateTime ldt = sp.parse(strDate);
-        System.out.println(strDesc);
-        System.out.println(strDate);
-        return new Post(title, link, strDesc, ldt);
-    }
-
     @Override
     public LocalDateTime parse(String parse) {
         LocalDateTime ldt;
