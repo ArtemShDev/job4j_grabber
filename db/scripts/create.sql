@@ -5,5 +5,4 @@ create table if not exists post (
  	link text,
      	created timestamp
  );
-
 ALTER TABLE post ADD UNIQUE (link);
