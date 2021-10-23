@@ -40,8 +40,8 @@ public class PsqlStore implements Store, AutoCloseable {
     @Override
     public void save(Post post) {
         try (PreparedStatement ps = cnn.
-                prepareStatement("insert into post(name, link, text, created)" +
-                        " values(?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+                prepareStatement("insert into post(name, link, text, created)"
+                        + " values(?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, post.getTitle());
             ps.setString(2, post.getLink());
             ps.setString(3, post.getDescription());
