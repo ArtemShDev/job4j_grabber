@@ -40,18 +40,12 @@ public class AlertRabbit {
         }
     }
 
-    private static Connection getConnection(Properties cfg) {
-        Connection cn = null;
-        try {
-            Class.forName(cfg.getProperty("driver-class-name"));
-            cn = DriverManager.getConnection(
-                    cfg.getProperty("url"),
-                    cfg.getProperty("username"),
-                    cfg.getProperty("password"));
-        } catch (Exception se) {
-            se.printStackTrace();
-        }
-        return cn;
+    private static Connection getConnection(Properties cfg) throws Exception {
+        Class.forName(cfg.getProperty("driver-class-name"));
+        return DriverManager.getConnection(
+                cfg.getProperty("url"),
+                cfg.getProperty("username"),
+                cfg.getProperty("password"));
     }
 
     private static Properties readProperties() {
