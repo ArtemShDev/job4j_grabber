@@ -26,13 +26,22 @@ public class PsqlStore implements Store, AutoCloseable {
         }
     }
 
+    private Post newPost(ResultSet resultSet) throws SQLException {
+        return new Post(resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getString("link"),
+                resultSet.getString("text"),
+                resultSet.getTimestamp("created").toLocalDateTime());
+    }
+
     public static void main(String[] args) throws IOException {
         InputStream inStream = PsqlStore.class.getClassLoader()
                 .getResourceAsStream("rabbit.properties");
         Properties cfg = new Properties();
         cfg.load(inStream);
         PsqlStore ps = new PsqlStore(cfg);
-        ps.save(new Post("vacancy Java Dev", "http://job4j.ru", "simple desc", LocalDateTime.now()));
+        ps.save(new Post("vacancy Java Dev", "http://job4j.ru",
+                "simple desc", LocalDateTime.now()));
         System.out.println(ps.getAll());
         System.out.println(ps.findById("1"));
     }
@@ -64,11 +73,7 @@ public class PsqlStore implements Store, AutoCloseable {
                 prepareStatement("select * from post")) {
             try (ResultSet resultSet = ps.executeQuery()) {
                 while (resultSet.next()) {
-                    list.add(new Post(resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getString("link"),
-                            resultSet.getString("text"),
-                            resultSet.getTimestamp("created").toLocalDateTime()));
+                    list.add(newPost(resultSet));
                 }
             }
         } catch (SQLException e) {
@@ -80,14 +85,11 @@ public class PsqlStore implements Store, AutoCloseable {
     @Override
     public Post findById(String id) {
         try (PreparedStatement ps = cnn.
-                prepareStatement(String.format("select * from post where id = %s", id))) {
+                prepareStatement("select * from post where id = ?")) {
+            ps.setInt(1, Integer.parseInt(id));
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
-                    return new Post(resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getString("link"),
-                            resultSet.getString("text"),
-                            resultSet.getTimestamp("created").toLocalDateTime());
+                    return newPost(resultSet);
                 }
             }
         } catch (SQLException e) {
