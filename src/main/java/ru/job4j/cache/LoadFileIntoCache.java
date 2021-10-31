@@ -13,8 +13,11 @@ public class LoadFileIntoCache implements UserAction {
         if (cache == null) {
             System.out.println("Please specify the caching directory!");
         } else {
-            System.out.println(cache.load(name));
-            System.out.println("File " + name + " was load");
+            try {
+                System.out.println(cache.load(name));
+            } catch (Exception e) {
+                System.out.printf("File %s is not exist into the directory!%n", name);
+            }
         }
         return true;
     }

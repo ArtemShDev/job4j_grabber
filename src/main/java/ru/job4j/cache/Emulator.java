@@ -28,11 +28,15 @@ public class Emulator {
         actions.add(new Exit());
         while (run) {
             showMenu(actions);
-            int n = in.askInt("Select number of menu: ");
-            if (n < 0 || n >= actions.size()) {
-                continue;
+            try {
+                int n = in.askInt("Select number of menu: ");
+                if (n < 0 || n >= actions.size()) {
+                    continue;
+                }
+                run = actions.get(n).execute(in, cache);
+            } catch (NumberFormatException e) {
+                System.out.println("Please, enter a number!");
             }
-            run = actions.get(n).execute(in, cache);
         }
     }
 

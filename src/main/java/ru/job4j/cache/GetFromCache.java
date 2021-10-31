@@ -13,8 +13,7 @@ public class GetFromCache implements UserAction {
         if (cache == null) {
             System.out.println("Please specify the caching directory!");
         } else {
-            System.out.println(cache.get(name));
-            System.out.println("File from the cache: " + name);
+            System.out.printf("File from the cache: %s%n%s%n", name, cache.get(name));
         }
         return true;
     }
