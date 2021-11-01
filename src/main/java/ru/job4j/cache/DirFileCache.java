@@ -19,14 +19,8 @@ public class DirFileCache extends AbstractCache<String, String> {
             System.out.println("Please specify the caching directory!");
             return res;
         }
-        if (cache.containsKey(key)) {
-            System.out.printf("The file %s is already exist!%n", key);
-            return get(key);
-        }
         try {
             res = Files.readString(Path.of(String.format("%s/%s", cachingDir, key)));
-            put(key, res);
-            System.out.printf("File %s was load into the cache!%n", key);
         } catch (IOException e) {
             e.printStackTrace();
         }

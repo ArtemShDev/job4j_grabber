@@ -13,11 +13,19 @@ public abstract class AbstractCache<K, V> {
     }
 
     public V get(K key) {
-        if (load(key).equals("")) {
-            return null;
+        V value;
+        if (cache.containsKey(key)) {
+            value = cache.get(key).get();
+            if (value != null) {
+                System.out.printf("The file %s is already exist!%n", key);
+                return value;
+            }
         }
-        SoftReference<V> sr = cache.get(key);
-        return sr.get();
+        value = load(key);
+        if (!value.equals("")) {
+            put(key, value);
+        }
+        return value;
     }
 
     protected abstract V load(K key);
