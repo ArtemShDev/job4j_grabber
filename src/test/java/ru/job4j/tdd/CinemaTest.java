@@ -27,7 +27,7 @@ public class CinemaTest {
     }
 
     @Ignore
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void tryBuyWhenSeatBusy() {
         Account account = new AccountCinema();
         Cinema cinema = new Cinema3D();
@@ -35,7 +35,6 @@ public class CinemaTest {
         date.set(2020, 10, 10, 23, 00);
         Ticket ticket = cinema.buy(account, 1, 1, date);
         Ticket ticket2 = cinema.buy(account, 1, 1, date);
-        assertThat(ticket2, is(nullValue()));
     }
 
     @Ignore
@@ -57,7 +56,7 @@ public class CinemaTest {
         date.set(2020, 10, 10, 21, 00);
         date.set(2020, 10, 17, 23, 00);
         Ticket ticket = cinema.buy(account, 1, 1, date);
-        Ticket ticket2 = cinema.buy(account, 1, 1, date);
+        Ticket ticket2 = cinema.buy(account, 2, 5, date);
         assertThat(Arrays.asList(ticket, ticket2), is(account.getAccTickets()));
     }
 

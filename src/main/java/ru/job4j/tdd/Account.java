@@ -1,5 +1,7 @@
 package ru.job4j.tdd;
 
+import java.util.List;
+
 public interface Account {
-    Object getAccTickets();
+    List<Ticket> getAccTickets();
 }
