@@ -19,7 +19,7 @@ public class MaxMinTest {
 
     @Test
     public void minInt() {
-        Comparator<Integer> cmpInteger = (left, right) -> Integer.compare(right, left);
+        Comparator<Integer> cmpInteger = Integer::compare;
         List<Integer> listInt = Arrays.asList(5, 9, 1, 12, 7, 24);
         MaxMin maxMin = new MaxMin();
         assertThat(maxMin.min(listInt, cmpInteger), is(1));
@@ -35,7 +35,7 @@ public class MaxMinTest {
 
     @Test
     public void minStringLength() {
-        Comparator<String> cmpInteger = (left, right) -> Integer.compare(right.length(), left.length());
+        Comparator<String> cmpInteger = Comparator.comparingInt(String::length);
         List<String> listInt = Arrays.asList("Test", "Ex", "Freedom");
         MaxMin maxMin = new MaxMin();
         assertThat(maxMin.min(listInt, cmpInteger), is("Ex"));
