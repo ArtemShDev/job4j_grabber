@@ -18,7 +18,8 @@ public class ReportEngineDev implements Report {
                 .append("<title>ITReport</title>\n")
                 .append("</head>\n")
                 .append("<body>\n")
-                .append("Name; Hired; Fired; Salary;\r\n");
+                .append("Name; Hired; Fired; Salary;")
+                .append(System.lineSeparator());
         for (Employee employee : store.findBy(filter)) {
             text.append(employee.getName()).append(";")
                     .append(employee.getHired()).append(";")
