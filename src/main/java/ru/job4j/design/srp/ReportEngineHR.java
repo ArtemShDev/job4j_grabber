@@ -17,7 +17,7 @@ public class ReportEngineHR implements Report {
     @Override
     public String generate(Predicate<Employee> filter) {
         StringBuilder text = new StringBuilder();
-        text.append("Name; Salary;\r\n");
+        text.append("Name; Salary;").append(System.lineSeparator());
         List<Employee> employees = store.findBy(filter);
         employees.sort(comparator);
         for (Employee employee : employees) {
