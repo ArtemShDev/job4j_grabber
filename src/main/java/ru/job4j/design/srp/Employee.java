@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Objects;
 
 public class Employee {
+
     private String name;
     private Calendar hired;
     private Calendar fired;

@@ -6,7 +6,6 @@ import org.junit.Test;
 import java.util.Calendar;
 
 public class ReportEngineTest {
-
     @Test
     public void whenOldGenerated() {
         MemStore store = new MemStore();
