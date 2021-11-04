@@ -1,5 +1,6 @@
 package ru.job4j.cache;
 
+import java.io.FileNotFoundException;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,13 +19,17 @@ public abstract class AbstractCache<K, V> {
             System.out.printf("The file %s is already exist!%n", key);
             return value;
         }
-        value = load(key);
-        if (!value.equals("")) {
-            put(key, value);
+        try {
+            value = load(key);
+            if (!value.equals("")) {
+                put(key, value);
+            }
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
         }
         return value;
     }
 
-    protected abstract V load(K key);
+    protected abstract V load(K key) throws FileNotFoundException;
 
 }

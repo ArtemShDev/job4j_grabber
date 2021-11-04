@@ -34,8 +34,8 @@ public class Emulator {
                     continue;
                 }
                 run = actions.get(n).execute(in, cache);
-            } catch (NumberFormatException e) {
-                System.out.println("Please, enter a number!");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
