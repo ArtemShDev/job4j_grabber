@@ -17,8 +17,6 @@ public class DirFileCache extends AbstractCache<String, String> {
     protected String load(String key) throws FileNotFoundException {
         String res = "";
         if (cachingDir == null || cachingDir.equals("")) {
-//            System.out.println("Please specify the caching directory!");
-//            return res;
             throw new FileNotFoundException("Please specify the caching directory!");
         }
         try {

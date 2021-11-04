@@ -108,24 +108,4 @@ public class ReportEngineTest {
                 .append("</html>");
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }
-
-    @Test
-    public void whenReportGeneratedTypicalReportToJson() {
-        MemStore store = new MemStore();
-        Calendar now = Calendar.getInstance();
-        Employee worker = new Employee("Ivan", null, null, 100);
-        store.add(worker);
-        FormatJSON formatJson = new FormatJSON();
-        Report engine = new ReportEngine(store);
-        StringBuilder expect = new StringBuilder()
-                .append("\"Name; Hired; Fired; Salary;\\r\\n")
-                .append(worker.getName()).append(";")
-                .append(worker.getHired()).append(";")
-                .append(worker.getFired()).append(";")
-                .append(worker.getSalary()).append(";\\r\\n")
-                .append("\"");
-        var lib = new GsonBuilder().create();
-        String emp = lib.toJson(worker);
-        assertThat(formatJson.toFormat(engine.generate(em -> true)), is(expect.toString()));
-    }
 }
