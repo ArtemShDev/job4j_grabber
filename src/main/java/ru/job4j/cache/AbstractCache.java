@@ -24,7 +24,7 @@ public abstract class AbstractCache<K, V> {
             if (!value.equals("")) {
                 put(key, value);
             }
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return value;
