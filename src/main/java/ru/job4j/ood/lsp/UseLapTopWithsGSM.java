@@ -14,7 +14,7 @@ class Gadgets {
     }
 }
 
-class LapTop extends Gadgets{
+class LapTop extends Gadgets {
 
     public LapTop(String typeDevice, boolean hasGSMModule) {
         super(typeDevice, hasGSMModule);

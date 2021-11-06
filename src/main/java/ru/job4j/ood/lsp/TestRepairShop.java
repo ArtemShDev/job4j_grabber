@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 class EquipmentRepairShop {
+
     protected List<String> list =
             List.of("Bosh", "Whirpool", "Indesit");
     public void repair(String equip) {
