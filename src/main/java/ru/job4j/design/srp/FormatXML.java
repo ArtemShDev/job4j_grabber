@@ -8,7 +8,7 @@ public class FormatXML implements Format {
     @Override
     public String toFormat(Object report) {
         try (StringWriter writer = new StringWriter()) {
-            JAXBContext context = JAXBContext.newInstance(Employee.class);
+            JAXBContext context = JAXBContext.newInstance(Employees.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             marshaller.marshal(report, writer);

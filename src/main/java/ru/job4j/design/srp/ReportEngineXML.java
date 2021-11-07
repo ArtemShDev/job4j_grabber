@@ -15,9 +15,7 @@ public class ReportEngineXML implements Report {
     @Override
     public String generate(Predicate<Employee> filter) {
         StringBuilder text = new StringBuilder();
-        for (Employee employee : store.findBy(filter)) {
-            text.append((String) converter.toFormat(employee)).append(System.lineSeparator());
-        }
+        text.append((String) converter.toFormat(new Employees(store.findBy(filter))));
         return text.toString();
     }
 }

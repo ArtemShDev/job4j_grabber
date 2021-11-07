@@ -117,9 +117,9 @@ public class ReportEngineTest {
         store.add(worker);
         Report engine = new ReportEngineJSON(store, new FormatJSON());
         StringBuilder expect = new StringBuilder()
+                .append("{\"list\":[")
                 .append("{\"name\":\"").append(worker.getName()).append("\",")
-                .append("\"salary\":").append(worker.getSalary()).append("}")
-                .append(System.lineSeparator());
+                .append("\"salary\":").append(worker.getSalary()).append("}]}");
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }
 
@@ -132,9 +132,9 @@ public class ReportEngineTest {
         Report engine = new ReportEngineXML(store, new FormatXML());
         StringBuilder expect = new StringBuilder()
                 .append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n")
-                .append("<employee name=\"").append(worker.getName()).append("\">\n")
-                .append("    <salary>").append(worker.getSalary()).append("</salary>\n")
-                .append("</employee>\n").append(System.lineSeparator());
+                .append("<employees>\n    <list>\n        <name>").append(worker.getName())
+                .append("</name>\n").append("        <salary>").append(worker.getSalary())
+                .append("</salary>\n    </list>\n").append("</employees>\n");
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }
 }
