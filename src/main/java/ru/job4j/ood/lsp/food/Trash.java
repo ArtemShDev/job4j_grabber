@@ -16,4 +16,9 @@ public class Trash implements Storage {
     public List<Food> getFood() {
         return List.copyOf(list);
     }
+
+    @Override
+    public boolean accept(Food food) {
+        return useExpiryDate(food.getExpiryDate(), food.getCreateDate()) == 100;
+    }
 }

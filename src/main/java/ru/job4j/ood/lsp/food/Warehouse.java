@@ -16,4 +16,10 @@ public class Warehouse implements Storage {
     public List<Food> getFood() {
         return List.copyOf(list);
     }
+
+    @Override
+    public boolean accept(Food food) {
+        double different = useExpiryDate(food.getExpiryDate(), food.getCreateDate());
+        return different > 0 && different < 25;
+    }
 }
