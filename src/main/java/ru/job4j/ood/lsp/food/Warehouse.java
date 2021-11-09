@@ -5,11 +5,14 @@ import java.util.List;
 
 public class Warehouse implements Storage {
 
-    List<Food> list = new ArrayList<>();
+    private List<Food> list = new ArrayList<>();
 
     @Override
-    public void add(Food food) {
-        list.add(food);
+    public boolean add(Food food) {
+        if (!accept(food)) {
+            return false;
+        }
+        return list.add(food);
     }
 
     @Override
