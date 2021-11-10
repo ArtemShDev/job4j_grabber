@@ -1,7 +1,6 @@
 package ru.job4j.ood.lsp.food;
 
 public class Shop extends Storage {
-
     @Override
     public boolean accept(Food food) {
         double different = useExpiryDate(food.getExpiryDate(), food.getCreateDate());

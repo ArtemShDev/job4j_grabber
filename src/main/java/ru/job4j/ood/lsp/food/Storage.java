@@ -19,8 +19,6 @@ abstract class Storage {
         return List.copyOf(list);
     }
 
-    abstract boolean accept(Food food);
-
     double useExpiryDate(Calendar expiryDate, Calendar createDate) {
         if (expiryDate.getTimeInMillis() == createDate.getTimeInMillis()) {
             return 100;
@@ -28,4 +26,6 @@ abstract class Storage {
         return ((double) (Calendar.getInstance().getTimeInMillis() - createDate.getTimeInMillis())
                 / (expiryDate.getTimeInMillis() - createDate.getTimeInMillis())) * 100;
     }
+
+    abstract boolean accept(Food food);
 }
