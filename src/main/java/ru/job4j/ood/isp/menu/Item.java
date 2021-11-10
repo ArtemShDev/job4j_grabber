@@ -2,8 +2,7 @@ package ru.job4j.ood.isp.menu;
 
 public class Item implements MenuItem {
 
-    private String name;
-
+    private  String name;
     public Item(String name) {
         this.name = name;
     }

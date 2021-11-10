@@ -40,7 +40,6 @@ public class Menu implements MenuItem {
 }
 
 class ShowMenu {
-
     public static void main(String[] args) {
         Menu mainMenu = new Menu(0, "Задача 1.");
         Menu subMenu1 = new Menu(1, "Задача 1.1.");
