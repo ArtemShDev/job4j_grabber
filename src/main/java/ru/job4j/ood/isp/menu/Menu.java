@@ -14,12 +14,12 @@ public class Menu implements MenuItem {
         this.name = name;
     }
 
-    public void add(MenuItem Item) {
-        menu.add(Item);
+    public void add(MenuItem item) {
+        menu.add(item);
     }
 
-    private void remove(MenuItem Item) {
-        menu.remove(Item);
+    private void remove(MenuItem item) {
+        menu.remove(item);
     }
 
     @Override
