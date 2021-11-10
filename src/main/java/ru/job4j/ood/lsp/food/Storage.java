@@ -1,15 +1,27 @@
 package ru.job4j.ood.lsp.food;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public interface Storage {
+abstract class Storage {
 
-    boolean add(Food food);
-    List<Food> getFood();
-    boolean accept(Food food);
+    private List<Food> list = new ArrayList<>();
 
-    default double useExpiryDate(Calendar expiryDate, Calendar createDate) {
+    public boolean add(Food food) {
+        if (!accept(food)) {
+            return false;
+        }
+        return list.add(food);
+    }
+
+    public List<Food> getFood() {
+        return List.copyOf(list);
+    }
+
+    abstract boolean accept(Food food);
+
+    double useExpiryDate(Calendar expiryDate, Calendar createDate) {
         if (expiryDate.getTimeInMillis() == createDate.getTimeInMillis()) {
             return 100;
         }
