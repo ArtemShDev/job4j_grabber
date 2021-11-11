@@ -1,6 +1,13 @@
 package ru.job4j.ood.lsp.food;
 
+import java.util.function.Predicate;
+
 public class Shop extends Storage {
+
+    public Shop(Predicate<Food> predicate) {
+        super(predicate);
+    }
+
     @Override
     public boolean accept(Food food) {
         double different = useExpiryDate(food.getExpiryDate(), food.getCreateDate());
