@@ -1,6 +1,7 @@
 package ru.job4j.ood.lsp.parking;
 
 import org.junit.Ignore;
+import org.junit.Test;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import static org.junit.Assert.*;
 public class ParkingCarsTest {
 
     @Ignore
+    @Test
     public void parkingResultWhenFullButOKTest() {
         List<Car> queue = List.of(new SimpleCar("5588AA"), new SimpleCar("1188AA"),
                 new SimpleCar("78tr55"), new SimpleCar("18SA"), new Truck("5588AA", 3),
@@ -23,6 +25,7 @@ public class ParkingCarsTest {
     }
 
     @Ignore
+    @Test
     public void parkingResultWhenParkingIsBusyTest() {
         List<Car> queue = List.of(new SimpleCar("5588AA"), new SimpleCar("1188AA"),
                 new SimpleCar("78tr55"), new SimpleCar("18SA"), new Truck("5588AA", 3),
@@ -36,6 +39,7 @@ public class ParkingCarsTest {
     }
 
     @Ignore
+    @Test
     public void countFreePlacesWhenTrackParkingOnSimplePlaceTest() {
         List<Car> queue = List.of(new SimpleCar("5588AA"), new SimpleCar("1188AA"),
                 new SimpleCar("78tr55"), new SimpleCar("18SA"), new Truck("5588AA", 3),
@@ -47,6 +51,7 @@ public class ParkingCarsTest {
     }
 
     @Ignore
+    @Test
     public void countFreePlacesForSimpleCarAndTracksTest() {
         List<Car> queue = List.of(new SimpleCar("5588AA"), new SimpleCar("1188AA"),
                 new SimpleCar("78tr55"), new SimpleCar("18SA"), new Truck("5588AA", 3),
