@@ -8,6 +8,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
+@Ignore
 public class ParkingCarsTest {
 
     @Ignore
