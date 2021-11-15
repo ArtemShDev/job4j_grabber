@@ -11,7 +11,7 @@ public class CityParking implements Parking {
     }
 
     @Override
-    public int[] getFreePlaces() {
-        return new int[0];
+    public ParkingInfo getFreePlaces() {
+        return null;
     }
 }

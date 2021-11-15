@@ -9,14 +9,12 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class ParkingCarsTest {
-
     @Ignore
     @Test
     public void parkingResultWhenFullButOKTest() {
         List<Car> queue = List.of(new SimpleCar("5588AA"), new SimpleCar("1188AA"),
-                new SimpleCar("78tr55"), new SimpleCar("18SA"), new Truck("5588AA", 3),
-                new Truck("1188AA", 2), new Truck("11AA", 4));
-        Parking parking = new CityParking(8, 2);
+                new Truck("188AA", 3), new Truck("11AA", 2));
+        Parking parking = new CityParking(4, 1);
         boolean result = false;
         for (Car car : queue) {
             result = parking.park(car);
@@ -27,38 +25,38 @@ public class ParkingCarsTest {
     @Ignore
     @Test
     public void parkingResultWhenParkingIsBusyTest() {
-        List<Car> queue = List.of(new SimpleCar("5588AA"), new SimpleCar("1188AA"),
-                new SimpleCar("78tr55"), new SimpleCar("18SA"), new Truck("5588AA", 3),
-                new Truck("1188AA", 2), new Truck("11AA", 6));
-        Parking parking = new CityParking(8, 2);
-        boolean result = false;
-        for (Car car : queue) {
-            result = parking.park(car);
-        }
+        Parking parking = new CityParking(4, 1);
+        parking.park(new SimpleCar("5588AA"));
+        parking.park(new SimpleCar("1188AA"));
+        boolean result = parking.park(new Truck("188AA", 2));
+        assertTrue(result);
+        result = parking.park(new Truck("11AA", 4));
         assertFalse(result);
     }
 
     @Ignore
     @Test
-    public void countFreePlacesWhenTrackParkingOnSimplePlaceTest() {
+    public void has1FreePlacesForSimpleCarTest() {
         List<Car> queue = List.of(new SimpleCar("5588AA"), new SimpleCar("1188AA"),
-                new SimpleCar("78tr55"), new SimpleCar("18SA"), new Truck("5588AA", 3),
                 new Truck("1188AA", 2), new Truck("11AA", 3));
-        Parking parking = new CityParking(8, 2);
-        int[] getFreePlaces = parking.getFreePlaces();
-        assertThat(getFreePlaces[0], is(1));
-        assertThat(getFreePlaces[1], is(0));
+        Parking parking = new CityParking(6, 1);
+        for (Car car : queue) {
+            parking.park(car);
+        }
+        ParkingInfo parkingInfo = parking.getFreePlaces();
+        assertThat(parkingInfo, is(new ParkingInfo(1, 0)));
     }
 
     @Ignore
     @Test
-    public void countFreePlacesForSimpleCarAndTracksTest() {
+    public void has4FreePlacesForSimpleCarAnd1ForTrucksTest() {
         List<Car> queue = List.of(new SimpleCar("5588AA"), new SimpleCar("1188AA"),
-                new SimpleCar("78tr55"), new SimpleCar("18SA"), new Truck("5588AA", 3),
-                new Truck("1188AA", 2));
-        Parking parking = new CityParking(8, 3);
-        int[] getFreePlaces = parking.getFreePlaces();
-        assertThat(getFreePlaces[0], is(4));
-        assertThat(getFreePlaces[1], is(1));
+                new Truck("5588AA", 3),  new Truck("1188AA", 2));
+        Parking parking = new CityParking(6, 3);
+        for (Car car : queue) {
+            parking.park(car);
+        }
+        ParkingInfo parkingInfo = parking.getFreePlaces();
+        assertThat(parkingInfo, is(new ParkingInfo(4, 1)));
     }
 }
