@@ -3,15 +3,16 @@ package ru.job4j.ood.lsp.parking;
 import java.util.Objects;
 
 public class ParkingInfo {
-    private int placesForSimpleCars;
-    private int placesForTrucks;
+
+    private int freePlacesForSimpleCars;
+    private int freePlacesForTrucks;
 
     public ParkingInfo() {
     }
 
-    public ParkingInfo(int placesForSimpleCars, int placesForTrucks) {
-        this.placesForSimpleCars = placesForSimpleCars;
-        this.placesForTrucks = placesForTrucks;
+    public ParkingInfo(int freePlacesForSimpleCars, int freePlacesForTrucks) {
+        this.freePlacesForSimpleCars = freePlacesForSimpleCars;
+        this.freePlacesForTrucks = freePlacesForTrucks;
     }
 
     @Override
@@ -23,11 +24,12 @@ public class ParkingInfo {
             return false;
         }
         ParkingInfo that = (ParkingInfo) o;
-        return placesForSimpleCars == that.placesForSimpleCars && placesForTrucks == that.placesForTrucks;
+        return freePlacesForSimpleCars == that.freePlacesForSimpleCars
+                && freePlacesForTrucks == that.freePlacesForTrucks;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(placesForSimpleCars, placesForTrucks);
+        return Objects.hash(freePlacesForSimpleCars, freePlacesForTrucks);
     }
 }

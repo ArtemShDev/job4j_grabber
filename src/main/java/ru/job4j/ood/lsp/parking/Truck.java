@@ -1,16 +1,21 @@
 package ru.job4j.ood.lsp.parking;
 
 public class Truck implements Car {
-    public Truck(String s, int i) {
+    private String number;
+    private int size;
+
+    public Truck(String number, int size) {
+        this.number = number;
+        this.size = size;
     }
 
     @Override
     public int getSize() {
-        return 0;
+        return size;
     }
 
     @Override
     public String getNumber() {
-        return null;
+        return number;
     }
 }
