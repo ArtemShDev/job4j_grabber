@@ -1,6 +1,7 @@
 package ru.job4j.ood.lsp.parking;
 
 public class SimpleCar implements Car {
+    public static final int SIZE = 1;
     private String number;
 
     public SimpleCar(String number) {
@@ -9,7 +10,7 @@ public class SimpleCar implements Car {
 
     @Override
     public int getSize() {
-        return 1;
+        return SIZE;
     }
 
     @Override

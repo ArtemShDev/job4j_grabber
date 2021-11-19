@@ -6,6 +6,8 @@ public class CityParking implements Parking {
 
     private int[] placesForSimpleCar;
     private int[] placesForTrucks;
+    private int truckPointer;
+    private int simpleCarPointer;
 
     public CityParking(int placesForSimpleCar, int placesForTrucks) {
         this.placesForSimpleCar = new int[placesForSimpleCar];
@@ -13,18 +15,24 @@ public class CityParking implements Parking {
     }
 
     private int getFreeSpaceForTruck() {
-        return placesForTrucks.length - Arrays.stream(placesForTrucks).sum();
+        return placesForTrucks.length - truckPointer;
     }
 
     private int getFreeSpaceSimple() {
-        return placesForSimpleCar.length - Arrays.stream(placesForSimpleCar).sum();
+        return placesForSimpleCar.length - simpleCarPointer;
     }
 
     private boolean parkCarOneToOne(int sizeCar) {
-        int[] arr = sizeCar > 1 ? placesForTrucks : placesForSimpleCar;
+        boolean isTruck = sizeCar > SimpleCar.SIZE;
+        int[] arr = isTruck ? placesForTrucks : placesForSimpleCar;
         for (int i = 0; i < arr.length; i++) {
             if (arr[i] == 0) {
                 arr[i]++;
+                if (isTruck) {
+                    truckPointer++;
+                } else {
+                    simpleCarPointer++;
+                }
                 return true;
             }
         }
@@ -47,6 +55,7 @@ public class CityParking implements Parking {
             if (countPlaces == sizeCar) {
                 for (int i = finishPlace - sizeCar; i < finishPlace; i++) {
                     placesForSimpleCar[i]++;
+                    simpleCarPointer++;
                 }
                 return true;
             }
@@ -57,7 +66,7 @@ public class CityParking implements Parking {
     @Override
     public boolean park(Car car) {
         int sizeCar = car.getSize();
-        if ((sizeCar > 1 && getFreeSpaceForTruck() != 0) || sizeCar == 1) {
+        if ((sizeCar > SimpleCar.SIZE && getFreeSpaceForTruck() != 0) || sizeCar == SimpleCar.SIZE) {
             return parkCarOneToOne(sizeCar);
         }
         return parkManyToOne(sizeCar);
