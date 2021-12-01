@@ -19,7 +19,8 @@ public class SqlRuDateTimeParser implements DateTimeParser {
                     Map.entry("май", "5"), Map.entry("июн", "6"),
                     Map.entry("июл", "7"), Map.entry("авг", "8"),
                     Map.entry("сен", "9"), Map.entry("окт", "10"),
-                    Map.entry("ноя", "11"), Map.entry("дек", "12"));
+                    Map.entry("ноя", "11"), Map.entry("дек", "12"),
+                    Map.entry("нояб", "11"));
 
     @Override
     public LocalDateTime parse(String parse) {
@@ -34,6 +35,7 @@ public class SqlRuDateTimeParser implements DateTimeParser {
         } else {
             arrStr = parse.split(" ");
         }
+        System.out.println("" + arrStr[1] + arrStr[0]);
         ldt = LocalDateTime.of(
                 Integer.parseInt(String.format("%s%s", "20", arrStr[2].substring(0, 2))),
                 Integer.parseInt(MONTHS.get(arrStr[1])), Integer.parseInt(arrStr[0]),

@@ -1,7 +1,5 @@
 package ru.job4j.ood.lsp.parking;
 
-import java.util.Arrays;
-
 public class CityParking implements Parking {
 
     private int[] placesForSimpleCar;
@@ -39,7 +37,7 @@ public class CityParking implements Parking {
         return false;
     }
 
-    private boolean parkManyToOne(int sizeCar) {
+    private boolean parkOneToMany(int sizeCar) {
         if (getFreeSpaceSimple() >= sizeCar) {
             int finishPlace = -1;
             int countPlaces = 0;
@@ -69,7 +67,7 @@ public class CityParking implements Parking {
         if ((sizeCar > SimpleCar.SIZE && getFreeSpaceForTruck() != 0) || sizeCar == SimpleCar.SIZE) {
             return parkCarOneToOne(sizeCar);
         }
-        return parkManyToOne(sizeCar);
+        return parkOneToMany(sizeCar);
     }
 
     @Override
