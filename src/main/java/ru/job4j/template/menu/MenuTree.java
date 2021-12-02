@@ -25,6 +25,7 @@ public class MenuTree implements Menu {
     }
 
     private Item findItem(String parentName, List<Item> subMenu) {
+
         Item findItem = null;
         for (Item item : subMenu) {
             if (parentName.equals(item.getName())) {
@@ -63,6 +64,7 @@ public class MenuTree implements Menu {
 }
 
 class ShowMenu {
+
     public static void main(String[] args) {
         Menu menu = new MenuTree();
         menu.add("", "Задача 1.", new ItemAction("Выполняем действие Задача 1."));
@@ -71,11 +73,11 @@ class ShowMenu {
         menu.add("Задача 1.", "Задача 1.2.", new ItemAction("Выполняем действие Задача 1.2."));
         menu.add("Задача 1.1.", "Задача 1.1.2.", new ItemAction("Выполняем действие Задача 1.1.2."));
         while (true) {
-            String str;
             System.out.println(menu);
             System.out.print("Введите название пункта меню (Для выхода наберите Exit): ");
             Scanner scanner = new Scanner(System.in);
-            if ((str = scanner.nextLine()).equals("Exit")) {
+            String str = scanner.nextLine();
+            if (str.equals("Exit")) {
                 break;
             }
             try {
